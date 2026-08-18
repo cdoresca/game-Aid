@@ -56,4 +56,4 @@ dkms.conf
 
 
 #Compiled folders
-build/
+[Bb]uild/
