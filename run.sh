@@ -2,4 +2,4 @@
 
 cmake --build build
 
-./build/bin/main
+./build/bin/Game-Aid
