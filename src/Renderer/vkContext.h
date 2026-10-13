@@ -40,7 +40,7 @@ const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
 };
 
-
+uint32_t findMemoryType(const VkContext& context,uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
 	const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
