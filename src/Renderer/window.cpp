@@ -1,16 +1,19 @@
 #include "window.h"
 
-window::window(){
-    framebufferResized = false;
+namespace renderer{
+
+window::window(const char* name):framebufferResized(false){
+    
 
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    m_window = glfwCreateWindow(800, 600, "Vulkan Window", nullptr, nullptr);
+    m_window = glfwCreateWindow(800, 600, name, nullptr, nullptr);
 
     glfwSetWindowUserPointer(m_window, this);
 	glfwSetFramebufferSizeCallback(m_window, framebufferResizeCallback);
 
 }
+
 window::~window(){
     cleanup();
 }
@@ -27,4 +30,6 @@ void window::cleanup(){
 void window::framebufferResizeCallback(GLFWwindow* glwindow, int width, int height){
     auto app = reinterpret_cast<window*>(glfwGetWindowUserPointer(glwindow));
 	app->framebufferResized = true;
+}
+
 }

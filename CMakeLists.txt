@@ -44,6 +44,7 @@ option(ENABLE_TESTS "Build unit tests" ON) #futur
 # Sub-projet
 #=======================================
 add_subdirectory(${SOURCE_DIR}/Core)
+add_subdirectory(${SOURCE_DIR}/Renderer)
 #=======================================
 # Main executable
 #=======================================
@@ -53,6 +54,7 @@ add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
   Core
+  Renderer
 )
 
 #=======================================

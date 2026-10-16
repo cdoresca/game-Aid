@@ -1,2 +1,2 @@
 1- add a class abstract for the allocation
-2 - implement  : slop, buddy, free list, jobManager 
+2 - implement  : slop, buddy, free list, jobManager, objetpool

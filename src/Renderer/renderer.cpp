@@ -1,4 +1,4 @@
-#include "platform.h"
+#include "renderer.h"
 
 platform::platform(){
     init();
@@ -9,8 +9,7 @@ platform::~platform(){
 }
 
 void platform::init(){
-    m_window = new window();
-
+    m_window;
     std::vector<const char*> deviceExtensions = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
 		VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME

@@ -4,7 +4,7 @@
 
 class platform{
     
-    window* m_window;
+    renderer::window m_window;
     VkContext ctx;
 
     void init();
