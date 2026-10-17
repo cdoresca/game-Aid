@@ -30,7 +30,7 @@ namespace core{
             file& operator=(file&&) = default;
 
             std::size_t read(char* buffer, size_t size);
-            std::size_t write(char* buffer, size_t size);
+            std::size_t write(const char* buffer, size_t size);
 
             bool open(const char* path, FileMode mode);
             bool isOpen();

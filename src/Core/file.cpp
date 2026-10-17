@@ -17,7 +17,7 @@ size_t file::read(char* buffer, size_t size){
     
 }
 
-size_t file::write(char* buffer, size_t size){
+size_t file::write(const char* buffer, size_t size){
     m_file.write(buffer, size);
     return m_file.good() ? size : 0;
 }
