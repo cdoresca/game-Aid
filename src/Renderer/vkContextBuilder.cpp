@@ -5,6 +5,7 @@
 #include "queueFamily.h"
 #include "swapChainSupportDetail.h"
 #include "vkUtils.h"
+#include "vkFunction.h"
 
 namespace renderer{
 
@@ -13,39 +14,42 @@ vulkanContextBuilder::vulkanContextBuilder(window window, const std::vector<Phys
 
 void vulkanContextBuilder::createInstance(){
 
-    VkApplicationInfo appInfo{};
-    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	appInfo.pApplicationName = "game-aid";
-	appInfo.pEngineName = "no engine";
-	appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-	appInfo.apiVersion = VK_API_VERSION_1_3;
-
-    VkValidationFeaturesEXT features{};
-	features.sType = VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT;
-	features.enabledValidationFeatureCount = validationFeature.size();
-	features.pEnabledValidationFeatures = validationFeature.data();
-
+    VkApplicationInfo appInfo = vkFct::getVkApplicationInfo("game-aid", 1,"no engine", VK_MAKE_VERSION(1, 0, 0),VK_API_VERSION_1_3);
+    VkValidationFeaturesEXT features = vkFct::getVkValidationFeaturesEXT(validationFeature.size(), validationFeature.data());
     std::vector<const char*> extensions = getRequiredExtensions();
     
     VkInstanceCreateInfo createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	createInfo.pApplicationInfo = &appInfo;
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
-	createInfo.ppEnabledExtensionNames = extensions.data();
-
-
-    VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+	
 	if (enableValidationLayers)
 	{
-		populateDebugMessengerCreateInfo(debugCreateInfo);
-		debugCreateInfo.pNext = &features;
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
-		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+		VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo = vkFct::getVkDebugUtilsMessengerCreateInfoEXT(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+			VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+			VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
+			debugCallback,
+			nullptr,
+			0,
+			&features
+		);
+
+		createInfo = vkFct::getVkInstanceCreateInfo(&appInfo, 
+			static_cast<uint32_t>(validationLayers.size()), 
+			validationLayers.data(), static_cast<uint32_t>(extensions.size()), 
+			extensions.data(),
+			0,
+			(VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo
+		);
 	}
 	else {
-		createInfo.enabledLayerCount = 0;
-		createInfo.pNext = nullptr;
+		createInfo = vkFct::getVkInstanceCreateInfo(&appInfo, 
+			0, 
+			nullptr,
+			static_cast<uint32_t>(extensions.size()), 
+			extensions.data()
+		);
 	}
 
     VK_CHECK(vkCreateInstance(&createInfo, nullptr, &context.instance));
@@ -54,8 +58,16 @@ void vulkanContextBuilder::createInstance(){
 void vulkanContextBuilder::setupDebugMessenger(){
     if (!enableValidationLayers) return;
 
-	VkDebugUtilsMessengerCreateInfoEXT createInfo{};
-	populateDebugMessengerCreateInfo(createInfo);
+	
+	VkDebugUtilsMessengerCreateInfoEXT createInfo = vkFct::getVkDebugUtilsMessengerCreateInfoEXT(VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+		VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
+		debugCallback
+	);
 
 	VK_CHECK(CreateDebugUtilsMessengerEXT(context.instance, &createInfo, nullptr, &context.debugMessenger));
 }
@@ -73,11 +85,7 @@ bool vulkanContextBuilder::isDeviceSuitable(const VkPhysicalDevice& gpu) {
 
 bool vulkanContextBuilder::isExtensionSuitable(const VkPhysicalDevice& gpu) const
 {
-    uint32_t extensionCount;
-    VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu, nullptr, &extensionCount, nullptr));
-    
-	std::vector<VkExtensionProperties> availableExtensions(extensionCount);
-    VK_CHECK(vkEnumerateDeviceExtensionProperties(gpu, nullptr, &extensionCount, availableExtensions.data()));
+	std::vector<VkExtensionProperties> availableExtensions = vkFct::getVkEnumerateDeviceExtensionProperties(gpu);
     
 	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 	for (const auto& extension : availableExtensions)
@@ -86,54 +94,6 @@ bool vulkanContextBuilder::isExtensionSuitable(const VkPhysicalDevice& gpu) cons
 	return requiredExtensions.empty();
 }
 
-bool vulkanContextBuilder::isModernFeatureSuitable(const VkPhysicalDevice& gpu)
-{
-	vkGetPhysicalDeviceFeatures2(gpu, &features2);
-
-	auto* base = reinterpret_cast<VkBaseOutStructure*>(features2.pNext);
-	while(base != nullptr) {
-        
-
-        switch (base->sType)
-        {
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ACCELERATION_STRUCTURE_FEATURES_KHR:
-            {
-                auto* asf = reinterpret_cast<VkPhysicalDeviceAccelerationStructureFeaturesKHR*>(base);
-                if (!asf->accelerationStructure)
-                    return false;
-                break;
-            }
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR:
-            {
-                auto* rtf = reinterpret_cast<VkPhysicalDeviceRayTracingPipelineFeaturesKHR*>(base);
-                if (!rtf->rayTracingPipeline)
-                    return false;
-                break;
-            }
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES:
-            {
-                auto* bda = reinterpret_cast<VkPhysicalDeviceBufferDeviceAddressFeatures*>(base);
-                if (!bda->bufferDeviceAddress)
-                    return false;
-                break;
-            }
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES: 
-            {
-                auto* index = reinterpret_cast<VkPhysicalDeviceDescriptorIndexingFeatures*>(base);
-                if (!index->descriptorBindingPartiallyBound || 
-                    !index->descriptorBindingVariableDescriptorCount ||
-                    !index->runtimeDescriptorArray)
-                    return false;
-                break;
-            }
-        }
-
-		base = base->pNext;
-	}
-    return isFeatureSuitable(features2.features);
-}
 
 bool vulkanContextBuilder::isQueueSuitable(const VkPhysicalDevice& gpu) const{
 	QueueFamiliesIndices indices = findQueueFamilies(gpu,context.surface);
@@ -156,13 +116,7 @@ bool vulkanContextBuilder::isFeatureSuitable(const VkPhysicalDeviceFeatures& fea
 
 void vulkanContextBuilder::choosePhysicalDevice()
 {
-	
-    uint32_t deviceCount = 0;
-
-    VK_CHECK(vkEnumeratePhysicalDevices(context.instance, &deviceCount, nullptr));
-
-    std::vector<VkPhysicalDevice> devices(deviceCount);
-    VK_CHECK(vkEnumeratePhysicalDevices(context.instance, &deviceCount, devices.data()));
+    std::vector<VkPhysicalDevice> devices = vkFct::getVkEnumeratePhysicalDevices(context.instance);
 
     for (const auto& gpu : devices) {
         if (isDeviceSuitable(gpu)) {
@@ -179,11 +133,7 @@ void vulkanContextBuilder::createInfoQueue(std::vector<VkDeviceQueueCreateInfo>&
 	std::set<uint32_t> uniqueQueueFamilies = { indices.graphicFamily.value(), indices.presentFamily.value() };
 	
 	for (uint32_t queueFamily : uniqueQueueFamilies) {
-		VkDeviceQueueCreateInfo	queueCreateInfo{};
-		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		queueCreateInfo.queueFamilyIndex = queueFamily;
-		queueCreateInfo.queueCount = 1;
-		queueCreateInfo.pQueuePriorities = &priorityQueue;
+		VkDeviceQueueCreateInfo	queueCreateInfo = vkFct::getVkDeviceQueueCreateInfo(queueFamily, 1,&priorityQueue);
 		info.push_back(queueCreateInfo);
 	}
 }
@@ -195,19 +145,13 @@ void vulkanContextBuilder::createDevice()
 	createInfoQueue(queueCreateInfos);
 
 	VkDeviceCreateInfo createInfo{};
-	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-	createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-	createInfo.pQueueCreateInfos = queueCreateInfos.data();
-	createInfo.pNext = &features2;
-	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+	
 	if (enableValidationLayers)
 	{
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
+		createInfo = vkFct::getVkDeviceCreateInfo(static_cast<uint32_t>(queueCreateInfos.size()),queueCreateInfos.data(),static_cast<uint32_t>(validationLayers.size()),validationLayers.data(),static_cast<uint32_t>(deviceExtensions.size()),deviceExtensions.data());	
 	}
 	else {
-		createInfo.enabledLayerCount = 0;
+		createInfo = vkFct::getVkDeviceCreateInfo(static_cast<uint32_t>(queueCreateInfos.size()),queueCreateInfos.data(), 0 ,nullptr,static_cast<uint32_t>(deviceExtensions.size()),deviceExtensions.data());
 	}
 	VK_CHECK(vkCreateDevice(context.physicalDevice, &createInfo, nullptr, &context.device));
 }

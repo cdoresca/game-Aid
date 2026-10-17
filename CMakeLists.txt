@@ -45,6 +45,7 @@ option(ENABLE_TESTS "Build unit tests" ON) #futur
 #=======================================
 add_subdirectory(${SOURCE_DIR}/Core)
 add_subdirectory(${SOURCE_DIR}/Renderer)
+add_subdirectory(${SOURCE_DIR}/Test)
 #=======================================
 # Main executable
 #=======================================
@@ -55,6 +56,7 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE
   Core
   Renderer
+  Test
 )
 
 #=======================================
