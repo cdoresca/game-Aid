@@ -6,7 +6,7 @@
 namespace Test{
 
 std::string buffer = "Hello World!\n Wow!!";
-size_t size = buffer.size();
+const size_t size = buffer.size();
 
 TEST(fileTest,write){
     core::file f("HelloWord.txt",core::FileMode::WRITE);
