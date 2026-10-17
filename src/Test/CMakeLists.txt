@@ -1,11 +1,3 @@
-
-
-if(ENABLE_TESTS)
-enable_testing()
-else()
-return()
-endif()
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -13,18 +5,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-file(GLOB_RECURSE FILES CONFIGURE_DEPENDS 
-    *.cpp 
-)
+file(GLOB_RECURSE FILES CONFIGURE_DEPENDS *.cpp)
 
 add_executable(Test ${FILES})
 
-target_include_directories(Test
-    PUBLIC  ${INCLUDE_DIR}
-)
-add_test(NAME Test COMMAND $<TARGET_FILE:Test>)
-
+target_include_directories(Test PRIVATE ${INCLUDE_DIR})
 target_link_libraries(Test PRIVATE Core GTest::gtest_main)
+target_compile_features(Test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(Test)
-target_compile_features(Test PUBLIC cxx_std_17)

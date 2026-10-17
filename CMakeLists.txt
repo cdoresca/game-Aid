@@ -39,7 +39,9 @@ endif()
 #=======================================
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(ENABLE_TESTS "Build unit tests" ON) #futur
-
+if(ENABLE_TESTS)
+    enable_testing()
+endif()
 #=======================================
 # Sub-projet
 #=======================================
