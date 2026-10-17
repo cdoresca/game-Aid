@@ -31,6 +31,7 @@ add_library(${PROJECT_NAME}::Renderer ALIAS Renderer)
 
 target_include_directories(Renderer
     PUBLIC  ${INCLUDE_DIR}/Renderer
+    PRIVATE ${SOURCE_DIR}/Renderer
     
 )
 
