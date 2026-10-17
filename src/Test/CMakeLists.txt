@@ -17,7 +17,7 @@ file(GLOB_RECURSE FILES CONFIGURE_DEPENDS
     *.cpp 
 )
 
-add_library(Test ${FILES})
+add_executable(Test ${FILES})
 
 target_include_directories(Test
     PUBLIC  ${INCLUDE_DIR}
