@@ -1,6 +1,7 @@
 
 
 if(ENABLE_TESTS)
+enable_testing()
 else()
 return()
 endif()
@@ -21,6 +22,8 @@ add_library(Test ${FILES})
 target_include_directories(Test
     PUBLIC  ${INCLUDE_DIR}
 )
+add_test(NAME Test COMMAND $<TARGET_FILE:Test>)
+
 target_link_libraries(Test PRIVATE GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(Test)
