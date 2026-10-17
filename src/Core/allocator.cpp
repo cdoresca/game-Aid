@@ -6,7 +6,7 @@ Allocator::Allocator(std::size_t size):m_size(size),m_used(0),m_memory(static_ca
 
 Allocator::~Allocator(){ free(m_memory);}
 
-void* Allocator::allocate(std::size_t size){
+void* Allocator::allocate(std::size_t size) noexcept{
     if(size == 0 || size > m_size - m_used)
         return nullptr;
     void* ptr = m_memory + m_used;
@@ -15,6 +15,6 @@ void* Allocator::allocate(std::size_t size){
     return ptr;
 }
 
-void Allocator::reset(){ m_used = 0; }
+void Allocator::reset() noexcept{ m_used = 0; }
 
 }

@@ -25,7 +25,7 @@ namespace core{
 
     threadPool::~threadPool(){
         {
-            unique_lock<mutex>(taskMutex);
+            unique_lock<mutex> lock(taskMutex);
             stop = true;
         }
         taskCV.notify_all();

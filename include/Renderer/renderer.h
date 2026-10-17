@@ -1,7 +1,7 @@
 #pragma once
 #include "window.h"
 #include "vkContext.h"
-
+/*
 class platform{
     
     renderer::window m_window;
@@ -17,3 +17,4 @@ class platform{
         GLFWwindow* getGLFW();
         VkContext getContext();
 };
+*/

@@ -15,19 +15,19 @@ PoolAllocator::~PoolAllocator(){
 }
 
 
-void* PoolAllocator::allocator(){
+void* PoolAllocator::allocator() noexcept{
     if(!m_freeList) return nullptr;
     void* block = m_freeList;
     m_freeList = *static_cast<void**>(m_freeList);
     return block;
 }
 
-void PoolAllocator::deallocate(void * block){
+void PoolAllocator::deallocate(void * block) noexcept{
     *static_cast<void **>(block) = m_freeList;
     m_freeList = block;
 }
 
-void PoolAllocator::buildFreeList(){
+void PoolAllocator::buildFreeList() noexcept{
     m_freeList = m_pool;
     char* current = m_pool;
     for(std::size_t i = 0; i < m_capacity - 1; i++){

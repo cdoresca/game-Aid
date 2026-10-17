@@ -6,10 +6,6 @@ namespace core{
 
 file::file(const char* path, FileMode mode){ open(path, mode); }
 
-void file::close(){
-    m_file.close();
-}
-
 //void* peut etre pour le futur, il faudra static cast
 size_t file::read(char* buffer, size_t size){
     m_file.read(buffer,size);
@@ -22,44 +18,19 @@ size_t file::write(const char* buffer, size_t size){
     return m_file.good() ? size : 0;
 }
 
-constexpr FileMode operator|(FileMode a, FileMode b){
-    return static_cast<FileMode>(static_cast<unsigned>(a) | static_cast<unsigned>(b));
-}
-
-constexpr bool hasFlag(FileMode value, FileMode flag){
-    return static_cast<unsigned>(value) & static_cast<unsigned>(flag) != 0;
-}
-
 bool file::isOpen(){
     return m_file.is_open();
 }
 
 bool file::open(const char* path, FileMode mode){
     ios_base::openmode flags;
-    switch (mode)
-    {
-        case FileMode::READ:
-            flags |= ios_base::in;
-            break;
-        case FileMode::WRITE:
-            flags |= ios_base::out;
-            break;
-        case FileMode::BINARY:
-            flags |= ios_base::binary;
-            break;
-        case FileMode::APPEND:
-            flags |= ios_base::app;
-            break;
-        case FileMode::AT_END:
-            flags |= ios_base::ate;
-            break;
-        case FileMode::TRUCATE:
-            flags |= ios_base::trunc;
-            break;
-        default:
-            break;
-    }
-
+    if(hasFlag(FileMode::READ,mode)) flags |= ios_base::in;
+    else if(hasFlag(FileMode::WRITE,mode)) flags |= ios_base::out;
+    else if(hasFlag(FileMode::BINARY,mode)) flags |= ios_base::binary;
+    else if(hasFlag(FileMode::APPEND,mode)) flags |= ios_base::app;
+    else if(hasFlag(FileMode::AT_END,mode)) flags |= ios_base::ate;
+    else if(hasFlag(FileMode::TRUCATE,mode)) flags |= ios_base::trunc;
+    
     m_file.open(path, flags);
 
     return m_file.is_open();

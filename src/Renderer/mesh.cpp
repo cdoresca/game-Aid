@@ -1,6 +1,6 @@
-#include"mesh.h"
-#include<vulkan/vulkan.h>
 
+#include<vulkan/vulkan.h>
+/*
 VkVertexInputBindingDescription getBindingDescription(){
 	VkVertexInputBindingDescription binding{};
 	binding.binding = 0;
@@ -37,3 +37,4 @@ mesh::mesh(){}
 void mesh::addVertex(Vertex vx){ vertices.push_back(vx); }
 
 void mesh::addIndex(uint16_t index){ indices.push_back(index); }
+*/

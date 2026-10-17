@@ -21,7 +21,7 @@ namespace core{
         return ptr;
     }
 
-    void trackAllocator::deallocator(void* ptr){
+    void trackAllocator::deallocator(void* ptr)noexcept{
         if(!ptr) return;
 
         lock_guard lg{lock};

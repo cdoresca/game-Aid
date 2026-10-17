@@ -1,5 +1,5 @@
 #include "renderer.h"
-
+/*
 platform::platform(){
     init();
 }
@@ -44,3 +44,5 @@ void platform::cleanup(){
 GLFWwindow* platform::getGLFW(){ return m_window->get();}
 
 VkContext platform::getContext(){return ctx;}
+
+*/

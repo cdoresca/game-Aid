@@ -1,4 +1,5 @@
 #include "buffer.h"
+/*
 
 void createBuffer(const VkContext& context, const VkDeviceSize size, const VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, Buffer& buffer){
 
@@ -50,3 +51,5 @@ void destroyBuffer(VkContext ctx, Buffer buffer){
 	vkDestroyBuffer(ctx.device,buffer.buffer,nullptr);
 	vkFreeMemory(ctx.device, buffer.memory, nullptr);
 }
+
+*/

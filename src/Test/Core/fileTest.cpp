@@ -1,29 +1,39 @@
-#include "Core/file.h"
-#include <string>
-
 #include "gtest/gtest.h"
+#include "Core/file.h"
 
-namespace Test{
+namespace Test {
 
-std::string buffer = "Hello World!\n Wow!!";
-const size_t size = 20;
+class FileTest : public ::testing::Test {
+protected:
+    const char* path = "HelloWord.txt";
+    const std::string expected = "Hello World!\n Wow!!";
 
-TEST(fileTest,write){
-    core::file f("HelloWord.txt",core::FileMode::WRITE);
-    
-   ASSERT_EQ(f.write(buffer.c_str(),size), size);
+    void SetUp() override {
+        core::file f(path, core::FileMode::WRITE | core::FileMode::BINARY);
+        ASSERT_TRUE(f.isOpen());
+        ASSERT_EQ(f.write(expected.data(), expected.size()), expected.size());
+    }   // f est détruit ici : le fichier est fermé et vidé
+
+    void TearDown() override { std::remove(path); }
+};
+
+TEST_F(FileTest, read) {
+    core::file f(path, core::FileMode::READ | core::FileMode::BINARY);
+    ASSERT_TRUE(f.isOpen());
+
+    char buf[64] = {};
+    std::size_t n = f.read(buf, sizeof(buf));
+
+    EXPECT_EQ(n, expected.size());
+    EXPECT_EQ(std::string(buf, n), expected);
 }
 
-TEST(fileTest,read){
-    core::file f("HelloWord.txt");
-    char buf[size];
-    f.read(buf,size);
-    ASSERT_STREQ(buf, buffer.c_str());
+TEST_F(FileTest, readAll) {
+    core::file f(path, core::FileMode::READ | core::FileMode::BINARY);
+    ASSERT_TRUE(f.isOpen());
+
+    std::vector<char> data = f.readAll();
+    EXPECT_EQ(std::string(data.begin(), data.end()), expected);
 }
 
-TEST(fileTest, readAll){
-    core::file f("HelloWord.txt");
-    
-    ASSERT_STREQ(f.readAll().data(), buffer.c_str());
-}
-}
+} // namespace Test

@@ -24,7 +24,7 @@ target_include_directories(Test
 )
 add_test(NAME Test COMMAND $<TARGET_FILE:Test>)
 
-target_link_libraries(Test PRIVATE GTest::gtest_main)
+target_link_libraries(Test PRIVATE Core GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(Test)
 target_compile_features(Test PUBLIC cxx_std_17)

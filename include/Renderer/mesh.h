@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <vulkan/vulkan.h>
-
+/*
 struct Vertex{
     glm::vec3 position;
     glm::vec3 normal;
@@ -26,3 +26,4 @@ class mesh{
     void addVertex(Vertex vx);
     void addIndex(uint16_t index);
 };
+*/

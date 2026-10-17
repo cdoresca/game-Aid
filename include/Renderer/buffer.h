@@ -1,6 +1,6 @@
 #pragma once
 #include"vkContext.h"
-
+/*
 struct Buffer
 {
 	VkBuffer buffer;
@@ -15,3 +15,4 @@ Buffer createBuffer(const VkContext& context,const VkDeviceSize size, VkBufferUs
 VkDeviceAddress queryBufferAddress(VkContext& context, VkBuffer other);
 
 void destroyBuffer(VkContext ctx, Buffer buffer);
+*/

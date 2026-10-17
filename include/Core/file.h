@@ -13,8 +13,13 @@ namespace core{
         TRUCATE = 1 << 5
     };
 
-    constexpr FileMode operator|(FileMode a, FileMode b);
-    constexpr bool hasFlag(FileMode a, FileMode b);
+constexpr FileMode operator|(FileMode a, FileMode b){
+    return static_cast<FileMode>(static_cast<unsigned>(a) | static_cast<unsigned>(b));
+}
+
+constexpr bool hasFlag(FileMode value, FileMode flag){
+    return (static_cast<unsigned>(value) & static_cast<unsigned>(flag)) != 0;
+}
 
     class file
     {
