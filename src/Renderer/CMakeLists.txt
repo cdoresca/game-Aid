@@ -37,6 +37,6 @@ target_include_directories(Renderer
 
 target_link_libraries(Renderer PRIVATE glfw Vulkan::Vulkan)
 
-target_compile_definitions(Renderer PUBLIC GLFW_INCLUDE_VULKAN)
+target_compile_definitions(Renderer PUBLIC GLFW_INCLUDE_NONE)
 
 target_compile_features(Renderer PUBLIC cxx_std_17)
