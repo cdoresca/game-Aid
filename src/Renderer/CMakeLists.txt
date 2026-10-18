@@ -16,7 +16,7 @@ if(NOT glfw3_FOUND)
     set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
     set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
     set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
-    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+   
 
     FetchContent_MakeAvailable(glfw)
 endif()
