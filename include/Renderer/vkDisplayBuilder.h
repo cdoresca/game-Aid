@@ -28,6 +28,5 @@ class vkDisplayBuilder:public IBuilder<VkDisplay>{
         void createSwapChain();
         void createImage();
         void createView();
-        void createFrameBuffer();
 };
 }

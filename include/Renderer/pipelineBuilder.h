@@ -6,19 +6,17 @@ namespace renderer{
 
     class pipelineBuilder:public IBuilder<Pipeline>
     {
-    private:
-        /* data */
-    public:
-        pipelineBuilder(/* args */);
-        ~pipelineBuilder();
+        public:
+            pipelineBuilder();
+            ~pipelineBuilder();
+
+            void reset() override {pipeline={};};
+            Pipeline get() override { return pipeline;};
+        private:
+            Pipeline pipeline;
+        
     };
     
-    pipelineBuilder::pipelineBuilder(/* args */)
-    {
-    }
     
-    pipelineBuilder::~pipelineBuilder()
-    {
-    }
     
 }

@@ -15,7 +15,11 @@ namespace renderer{
 
     VkDisplay vkDisplayBuilder::get(){ return display;}
 
-    void vkDisplayBuilder::build(){ }
+    void vkDisplayBuilder::build(){ 
+        createSwapChain();
+        createImage();
+        createView();
+    }
 
     void vkDisplayBuilder::reset(){ display = {};}
 
