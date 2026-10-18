@@ -4,17 +4,15 @@
 #include <optional>
 #include <vector>
 
-using namespace std;
-
 /**
  * @brief 
  * Le struct QueueFamiliesIndices garde les indices des queues
  */
 struct QueueFamiliesIndices {
-	optional<uint32_t> graphicFamily;
-	optional<uint32_t> presentFamily;
-	optional<uint32_t> computeFamily;
-	optional<uint32_t> transfertFamily;
+	std::optional<uint32_t> graphicFamily;
+	std::optional<uint32_t> presentFamily;
+	std::optional<uint32_t> computeFamily;
+	std::optional<uint32_t> transfertFamily;
 
 	bool isComplete();
 };

@@ -26,9 +26,17 @@ VkSubpassDescription getVkSubpassDescription(VkPipelineBindPoint pipelineBindPoi
 
 VkRenderPassCreateInfo getVkRenderPassCreateInfo(uint32_t attachmentCount, const VkAttachmentDescription* pAttachments, uint32_t subpassCount, const VkSubpassDescription* pSubpasses, uint32_t dependencyCount, const VkSubpassDependency* pDependencies, VkRenderPassCreateFlags flags = 0, const void* pNext = nullptr);
 
+VkSwapchainCreateInfoKHR getVkSwapchainCreateInfoKHR(VkSurfaceKHR surface, uint32_t minImageCount, VkFormat imageFormat, VkColorSpaceKHR imageColorSpace, VkExtent2D imageExtent, uint32_t imageArrayLayers, VkImageUsageFlags imageUsage, VkSharingMode imageSharingMode, uint32_t queueFamilyIndexCount, const uint32_t* pQueueFamilyIndices, VkSurfaceTransformFlagBitsKHR preTransform, VkCompositeAlphaFlagBitsKHR compositeAlpha, VkPresentModeKHR presentMode, VkBool32 clipped, VkSwapchainKHR oldSwapchain, VkSwapchainCreateFlagsKHR flags = 0, const void* pNext = nullptr);
+
+VkImageViewCreateInfo getVkImageViewCreateInfo(VkImage image, VkImageViewType viewType, VkFormat format, VkComponentMapping components, VkImageSubresourceRange subresourceRange, VkImageViewCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkShaderModuleCreateInfo getVkShaderModuleCreateInfo(size_t codeSize, const uint32_t* pCode, VkShaderModuleCreateFlags flags = 0, const void* pNext = nullptr);
+
 std::vector<VkExtensionProperties> getVkEnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName = nullptr);
 
 std::vector<VkPhysicalDevice> getVkEnumeratePhysicalDevices(VkInstance instance);
+
+std::vector<VkImage> getVkGetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapChain);
 
 }
 

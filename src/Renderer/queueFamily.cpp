@@ -12,7 +12,7 @@ QueueFamiliesIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR sur
 	uint32_t queueFamilyCount = 0;
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
 
-	vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
 
 	int i = 0;

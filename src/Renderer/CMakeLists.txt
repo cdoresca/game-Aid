@@ -32,10 +32,10 @@ add_library(${PROJECT_NAME}::Renderer ALIAS Renderer)
 target_include_directories(Renderer
     PUBLIC  ${INCLUDE_DIR}/Renderer
     PRIVATE ${SOURCE_DIR}/Renderer
-    
+    PRIVATE ${INCLUDE_DIR}/Core
 )
 
-target_link_libraries(Renderer PRIVATE glfw Vulkan::Vulkan)
+target_link_libraries(Renderer PRIVATE glfw Vulkan::Vulkan Core)
 
 target_compile_definitions(Renderer PUBLIC GLFW_INCLUDE_NONE)
 

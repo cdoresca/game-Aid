@@ -127,6 +127,54 @@ VkRenderPassCreateInfo getVkRenderPass(uint32_t attachmentCount, const VkAttachm
     return info;
 }
 
+VkSwapchainCreateInfoKHR getVkSwapchainCreateInfoKHR(VkSurfaceKHR surface, uint32_t minImageCount, VkFormat imageFormat, VkColorSpaceKHR imageColorSpace, VkExtent2D imageExtent, uint32_t imageArrayLayers, VkImageUsageFlags imageUsage, VkSharingMode imageSharingMode, uint32_t queueFamilyIndexCount, const uint32_t* pQueueFamilyIndices, VkSurfaceTransformFlagBitsKHR preTransform, VkCompositeAlphaFlagBitsKHR compositeAlpha, VkPresentModeKHR presentMode, VkBool32 clipped, VkSwapchainKHR oldSwapchain, VkSwapchainCreateFlagsKHR flags, const void* pNext){
+   VkSwapchainCreateInfoKHR info{};
+   info.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+   info.surface = surface;
+   info.minImageCount = minImageCount;
+   info.imageFormat = imageFormat;
+   info.imageColorSpace = imageColorSpace;
+   info.imageExtent = imageExtent;
+   info.imageArrayLayers = imageArrayLayers;
+   info.imageUsage = imageUsage;
+   info.imageSharingMode = imageSharingMode;
+   info.queueFamilyIndexCount = queueFamilyIndexCount;
+   info.pQueueFamilyIndices = pQueueFamilyIndices;
+   info.preTransform = preTransform;
+   info.compositeAlpha = compositeAlpha;
+   info.presentMode = presentMode;
+   info.clipped = clipped;
+   info.oldSwapchain = oldSwapchain;
+   info.flags = flags;
+   info.pNext = pNext;
+    return info;
+}
+
+VkImageViewCreateInfo getVkImageViewCreateInfo(VkImage image, VkImageViewType viewType, VkFormat format, VkComponentMapping components, VkImageSubresourceRange subresourceRange, VkImageViewCreateFlags flags, const void* pNext){
+    VkImageViewCreateInfo info{};
+    info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+    info.image = image;
+    info.viewType = viewType;
+    info.format = format;
+    info.components = components;
+    info.subresourceRange = subresourceRange;
+    info.flags = flags;
+    info.pNext = pNext;
+    return info;
+}
+
+VkShaderModuleCreateInfo getVkShaderModuleCreateInfo(size_t codeSize, const uint32_t* pCode, VkShaderModuleCreateFlags flags, const void* pNext){
+   
+    VkShaderModuleCreateInfo info{};
+    info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    info.codeSize = codeSize;
+    info.pCode = pCode;
+    info.flags = flags; 
+    info.pNext = pNext;
+    return info;
+}
+
+
 std::vector<VkExtensionProperties> getVkEnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName){
     uint32_t count;
     VK_CHECK(vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, nullptr));
@@ -142,6 +190,15 @@ std::vector<VkPhysicalDevice> getVkEnumeratePhysicalDevices(VkInstance instance)
     VK_CHECK(vkEnumeratePhysicalDevices(instance,&count,gpu.data()));
     return gpu;
 }
+
+std::vector<VkImage> getVkGetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapChain){
+    uint32_t count;
+    VK_CHECK(vkGetSwapchainImagesKHR(device, swapChain, &count, nullptr));
+    std::vector<VkImage> swapChainImages(count);
+    VK_CHECK(vkGetSwapchainImagesKHR(device, swapChain, &count, swapChainImages.data()));
+    return swapChainImages;
+}
+
 
 }
 
