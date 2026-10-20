@@ -12,7 +12,7 @@ namespace renderer{
 
             void reset() override {pipeline={};};
             Pipeline get() override { return pipeline;};
-        private:
+        protected:
             Pipeline pipeline;
         
     };

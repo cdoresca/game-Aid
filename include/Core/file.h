@@ -44,7 +44,7 @@ constexpr bool hasFlag(FileMode value, FileMode flag){
 
             std::vector<char> readAll();
 
-        private:
+        protected:
 
             std::fstream m_file;
         

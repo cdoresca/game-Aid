@@ -32,6 +32,32 @@ VkImageViewCreateInfo getVkImageViewCreateInfo(VkImage image, VkImageViewType vi
 
 VkShaderModuleCreateInfo getVkShaderModuleCreateInfo(size_t codeSize, const uint32_t* pCode, VkShaderModuleCreateFlags flags = 0, const void* pNext = nullptr);
 
+VkPipelineShaderStageCreateInfo getVkPipelineShaderStageCreateInfo(VkShaderStageFlagBits stage, VkShaderModule module,const char* pName, const VkSpecializationInfo* pSpecializationInfo = nullptr, VkPipelineShaderStageCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkPipelineVertexInputStateCreateInfo getVkPipelineVertexInputStateCreateInfo(uint32_t vertexBindingDescriptionCount, const VkVertexInputBindingDescription* pVertexBindingDescriptions, uint32_t vertexAttributeDescriptionCount, const VkVertexInputAttributeDescription* pVertexAttributeDescriptions, VkPipelineVertexInputStateCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkPipelineInputAssemblyStateCreateInfo getVkPipelineInputAssemblyStateCreateInfo(VkPrimitiveTopology topology, VkBool32 primitiveRestartEnable, VkPipelineInputAssemblyStateCreateFlags flags, const void* pNext);
+
+VkPipelineViewportStateCreateInfo getVkPipelineViewportStateCreateInfo(uint32_t viewportCount, const VkViewport* pViewports, uint32_t scissorCount, const VkRect2D* pScissors, VkPipelineViewportStateCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkPipelineRasterizationStateCreateInfo getVkPipelineRasterizationStateCreateInfo(VkBool32 depthClampEnable, VkBool32 rasterizerDiscardEnable, VkPolygonMode polygonMode, VkCullModeFlags cullMode, VkFrontFace frontFace, VkBool32 depthBiasEnable, float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor, float lineWidth, VkPipelineRasterizationStateCreateFlags flags, const void* pNext);
+
+VkPipelineMultisampleStateCreateInfo getVkPipelineMultisampleStateCreateInfo(VkSampleCountFlagBits rasterizationSamples, VkBool32 sampleShadingEnable, float minSampleShading, const VkSampleMask* pSampleMask, VkBool32 alphaToCoverageEnable, VkBool32 alphaToOneEnable, VkPipelineMultisampleStateCreateFlags flags, const void* pNext);
+
+VkPipelineColorBlendAttachmentState getVkPipelineColorBlendAttachmentState(VkColorComponentFlags colorWriteMask, VkBool32 blendEnable, VkBlendFactor srcColorBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendFactor dstColorBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendOp colorBlendOp = VK_BLEND_OP_ADD, VkBlendFactor srcAlphaBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendFactor dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO, VkBlendOp alphaBlendOp = VK_BLEND_OP_ADD);
+
+VkPipelineColorBlendStateCreateInfo getVkPipelineColorBlendStateCreateInfo(VkBool32 logicOpEnable, VkLogicOp logicOp, uint32_t attachmentCount, const VkPipelineColorBlendAttachmentState* pAttachments, float blendConstants[4], VkPipelineColorBlendStateCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkPipelineDynamicStateCreateInfo getVkPipelineDynamicStateCreateInfo(uint32_t dynamicStateCount, const VkDynamicState* pDynamicStates, VkPipelineDynamicStateCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkPipelineLayoutCreateInfo getVkPipelineLayoutCreateInfo(uint32_t setLayoutCount, const VkDescriptorSetLayout* pSetLayouts, uint32_t pushConstantRangeCount, const VkPushConstantRange* pPushConstantRanges, VkPipelineLayoutCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkGraphicsPipelineCreateInfo getVkGraphicsPipelineCreateInfo(VkPipelineLayout layout, VkRenderPass renderPass, uint32_t subpass, uint32_t stageCount,VkPipeline basePipelineHandle, int32_t basePipelineIndex, const VkPipelineShaderStageCreateInfo* pStages, const VkPipelineVertexInputStateCreateInfo* pVertexInputState, const VkPipelineInputAssemblyStateCreateInfo* pInputAssemblyState, const VkPipelineTessellationStateCreateInfo* pTessellationState, const VkPipelineViewportStateCreateInfo* pViewportState, const VkPipelineRasterizationStateCreateInfo* pRasterizationState, const VkPipelineMultisampleStateCreateInfo* pMultisampleState, const VkPipelineDepthStencilStateCreateInfo* pDepthStencilState, const VkPipelineColorBlendStateCreateInfo* pColorBlendState, const VkPipelineDynamicStateCreateInfo* pDynamicState, VkPipelineCreateFlags flags = 0, const void* pNext = nullptr);
+
+VkComputePipelineCreateInfo getVkComputePipelineCreateInfo(VkPipelineLayout layout, VkPipelineShaderStageCreateInfo stage, VkPipeline basePipelineHandle, int32_t basePipelineIndex, VkPipelineCreateFlags flags, const void* pNext);
+
+VkFramebufferCreateInfo getVkFramebufferCreateInfo(VkRenderPass renderPass, uint32_t attachmentCount, const VkImageView* pAttachments, uint32_t width, uint32_t height, uint32_t layers, VkFramebufferCreateFlags flags = 0, const void* pNext = nullptr);
+
 std::vector<VkExtensionProperties> getVkEnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName = nullptr);
 
 std::vector<VkPhysicalDevice> getVkEnumeratePhysicalDevices(VkInstance instance);
