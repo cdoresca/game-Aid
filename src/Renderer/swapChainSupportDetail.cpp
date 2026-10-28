@@ -13,29 +13,29 @@ namespace renderer{
 		details.presentsModes = vkQuery::queryVkPresentModeKHR(ctx.physicalDevice, ctx.surface); 
 		return details;
 	}
-	/*
 	
-	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
+	
+	bool SwapChainSupportDetails::verifySwapSurfaceFormat(VkSurfaceFormatKHR format) {
 		
-		for (const auto& availableFormat : availableFormats) {
+		for (const auto& availableFormat : formats) {
 			
-			if (availableFormat.format == VK_FORMAT_R8G8B8A8_SRGB &&
-				availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
-				return availableFormat;
+			if (availableFormat.format == format.format &&
+				availableFormat.colorSpace == format.colorSpace) {
+				return true;
 			}
 		}
-		return availableFormats[0];
+		return false;
 	}
 		
-	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
-		for (const auto& availablePresentMode : availablePresentModes) {
-			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
-			return availablePresentMode;
+	bool SwapChainSupportDetails::verifySwapPresentMode(VkPresentModeKHR presentMode) {
+		for (const auto& availablePresentMode : presentsModes) {
+			if (availablePresentMode == presentMode)
+			return true;
 		}
-		return VK_PRESENT_MODE_FIFO_KHR;
+		return false;
 	}
 		
-	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window) {
+	VkExtent2D SwapChainSupportDetails::chooseSwapExtent(GLFWwindow* window) {
 		
 		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
 			return capabilities.currentExtent;
@@ -52,5 +52,5 @@ namespace renderer{
 			return actualExtent;
 		}
 		
-	}*/
+	}
 }

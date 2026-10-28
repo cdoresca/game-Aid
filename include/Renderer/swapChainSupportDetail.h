@@ -1,7 +1,7 @@
 #pragma once
 #include "vkContext.h"
 #include <vector>
-
+#include <GLFW/glfw3.h>
 namespace renderer{
 /**
  * @brief 
@@ -12,15 +12,15 @@ struct SwapChainSupportDetails {
 	VkSurfaceCapabilitiesKHR capabilities;
 	std::vector<VkSurfaceFormatKHR> formats;
 	std::vector<VkPresentModeKHR> presentsModes;
+
+	bool verifySwapSurfaceFormat(VkSurfaceFormatKHR format);
+	
+	bool verifySwapPresentMode(VkPresentModeKHR availablePresentModes);
+	VkExtent2D chooseSwapExtent(GLFWwindow* window);
 };
 
 SwapChainSupportDetails querySwapChainSupport(VkContext ctx);
 
-/*
-VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormat);
 
-VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
-VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, GLFWwindow* window);
-*/
 }

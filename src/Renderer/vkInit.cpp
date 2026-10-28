@@ -6,6 +6,9 @@
 #include "swapChainSupportDetail.h"
 #include "queueFamily.h"
 #include "vkStruct.h"
+#include <stdexcept>
+
+
 
 namespace renderer{
 
@@ -82,6 +85,24 @@ namespace renderer{
 
         VK_CHECK(vkCreateDevice(ctx.physicalDevice, &info, nullptr, &ctx.device));
         vkGetDeviceQueue(ctx.device, infoQueue.queueFamilyIndex, 0, &ctx.queue);
+    }
+
+    void createSwapChain(const core::json& j,VkContext ctx, GLFWwindow* window_, VkDisplay& dpy){
+        VkSwapchainCreateInfoKHR infoSwapChain = j.get<VkSwapchainCreateInfoKHR>();
+
+        SwapChainSupportDetails detail = querySwapChainSupport(ctx);
+        if(!detail.verifySwapPresentMode(infoSwapChain.presentMode)) throw std::runtime_error("presentMode is not supported!");
+        if(!detail.verifySwapSurfaceFormat({infoSwapChain.imageFormat,infoSwapChain.imageColorSpace})) throw std::runtime_error("imageFormat is not supported!");
+
+        VkDeviceQueueCreateInfo infoQueue = chooseVkQueueFamily(ctx);
+
+        infoSwapChain.imageExtent = detail.chooseSwapExtent(window_);
+        infoSwapChain.queueFamilyIndexCount = 1;
+        infoSwapChain.pQueueFamilyIndices = &infoQueue.queueFamilyIndex;
+        infoSwapChain.oldSwapchain = VK_NULL_HANDLE;
+
+        VK_CHECK(vkCreateSwapchainKHR(ctx.device, &infoSwapChain, nullptr, &dpy.swapChain));
+
     }
 
 }

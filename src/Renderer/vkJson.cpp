@@ -61,3 +61,18 @@ void from_json(const core::json& j, VkDebugUtilsMessengerCreateInfoEXT& info){
     info.flags = j.value("flags", 0);
     info.pNext = j.value("pNext", nullptr);
 }
+
+void from_json(const core::json& j, VkSwapchainCreateInfoKHR& info){
+
+    info.minImageCount = j.value("minImageCount", 0);
+    info.imageFormat = j.value("format", VK_FORMAT_UNDEFINED);
+    info.imageColorSpace = j.value("colorSpace", VK_COLOR_SPACE_SRGB_NONLINEAR_KHR);
+    info.imageArrayLayers = j.value("imageArrayLayers", 0);
+    info.imageUsage = j.value("imageUsage", 0);
+    info.preTransform = j.value("preTransform", VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR);
+    info.compositeAlpha = j.value("compositeAlpha",VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR);
+    info.presentMode = j.value("presentMode", VK_PRESENT_MODE_IMMEDIATE_KHR);
+    info.clipped = j.value("clipped", true);
+    info.imageSharingMode = j.value("imageSharingMode", VK_SHARING_MODE_EXCLUSIVE);
+
+}
