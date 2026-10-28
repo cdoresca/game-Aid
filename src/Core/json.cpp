@@ -24,4 +24,12 @@ namespace core{
         object = data.get<T>();
         return true;
     }
+
+    const json& getJson(const char* path){
+        file f(path);
+        if (!f.isOpen()) return false;
+        std::vector<char> bytes = f.readAll();
+        return json::parse(bytes.begin(),bytes.end());
+    }
+
 }

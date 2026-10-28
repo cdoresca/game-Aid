@@ -10,4 +10,6 @@ namespace core{
 
     template<typename T>
     bool writeJson(const char* path, const T&);
+
+    const json& getJson(const char* path);
 }

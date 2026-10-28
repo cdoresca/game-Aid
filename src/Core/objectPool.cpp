@@ -7,7 +7,7 @@ namespace core{
     objectPool<T>::objectPool(std::size_t size){
         if(size == 0 ) throw std::invalid_argument("size must be > 0");
         for(std::size_t i = 0; i < size; i++)
-            pool.emplace_back(make_unique<T>());
+            pool.emplace_back(std::make_unique<T>());
     }
 
     template <typename T>

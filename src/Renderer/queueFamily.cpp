@@ -1,37 +1,36 @@
 #include "queueFamily.h"
+#include "vkQuery.h"
 
-bool QueueFamiliesIndices::isComplete() {	return graphicFamily.has_value() && 
-	presentFamily.has_value() && 
-	computeFamily.has_value() && 
-	transfertFamily.has_value();	
-}
-
-QueueFamiliesIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface) {
-	QueueFamiliesIndices indices;
-
-	uint32_t queueFamilyCount = 0;
-	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
-
-	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-	vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
-
-	int i = 0;
-	for (const auto& queueFamily : queueFamilies) {
-		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
-
-		if (presentSupport)
-			indices.presentFamily = i;
-		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
-			indices.graphicFamily = i;
-		if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
-			indices.computeFamily = i;
-		if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT)
-			indices.transfertFamily = i;
-		if (indices.isComplete())
-			break;
-		i++;
+namespace renderer{
+	bool QueueFamiliesIndices::isComplete(){
+		return graphicFamily.has_value() && presentFamily.has_value() && computeFamily.has_value() && transfertFamily.has_value();
 	}
 	
-	return indices;
+	std::vector<QueueFamiliesIndices> findQueueFamilies(VkContext ctx) {
+		std::vector<QueueFamiliesIndices> indices;
+		
+		std::vector<VkQueueFamilyProperties> queueFamilies = vkQuery::queryVkPhysicalDeviceQueueFamilyProperties(ctx.physicalDevice);
+		
+		int i = 0;
+		for (const auto& queueFamily : queueFamilies) {
+			QueueFamiliesIndices indice;
+			VkBool32 presentSupport = false;
+			vkGetPhysicalDeviceSurfaceSupportKHR(ctx.physicalDevice, i, ctx.surface, &presentSupport);
+
+			if (presentSupport)
+				indice.presentFamily = i;
+			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+				indice.graphicFamily = i;
+			if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+				indice.computeFamily = i;
+			if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT)
+				indice.transfertFamily = i;
+			indice.count = queueFamily.queueCount;
+			i++;
+			indices.push_back(indice);
+		}
+	
+		return indices;
+	}
+
 }

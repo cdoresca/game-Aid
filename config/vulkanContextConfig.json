@@ -1,0 +1,89 @@
+{
+    "instance":{
+        "enabledExtensionCount": 1,
+        "ppEnabledExtensionNames":["VK_KHR_surface", "VK_EXT_debug_utils"],
+        "enabledLayerCount": 1,
+        "ppEnabledLayerNames":["VK_LAYER_KHRONOS_validation"],
+        "pApplicationInfo":{
+            "pApplicationName": "Game-Aid",
+            "pEngineName": "no engine",
+            "engineVersion":[1, 0, 0, 0]
+        }
+    },
+
+    "device":{
+        "enabledLayerCount":1,
+        "ppEnabledLayerNames":["VK_LAYER_KHRONOS_validation"],
+        "enabledExtensionCount":1,
+        "ppEnabledExtensionNames":["VK_KHR_swapchain"]
+    },
+
+    "feature":[],
+
+    "debug":{
+        
+        "messageSeverity":[256, 16, 4096],
+        "messageType":[1, 2, 4],
+        "pNext":{
+            "enabledValidationFeatureCount":2,
+            "pEnabledValidationFeatures": [2,4]
+        }
+    },
+
+    "swapChain":{
+        "minImageCount": 3,
+        "format":43,
+        "colorSpace":0,
+        "imageArrayLayers": 1,
+        "imageUsage": 16,
+        "preTransform":1,
+        "compositeAlpha":1,
+        "presentMode":2,
+        "clipped": true,
+        "imageSharingMode":0
+    },
+
+    "imageView":{
+        "viewType": 1,
+        "format":43,
+        "components":{
+            "r":0, 
+            "g":0, 
+            "b":0,
+            "a":0
+        },
+        "subresourceRange":{
+            "aspectMask":1,
+            "baseMipLevel":0,
+            "levelCount":1,
+            "baseArrayLayer":0,
+            "layerCount":1
+        }
+    },
+
+
+    "renderPass":{
+        "attachmentCount":1,
+        "pAttachments":[{
+            "format":43,
+            "samples":1,
+            "loadOp":1,
+            "storeOp":0,
+            "stencilLoadOp":2,
+            "stencilStoreOp":1,
+            "initialLayout":0,
+            "finalLayout":1000001002
+        }],
+        "subpassCount":1,
+        "pSubpasses":[{
+            "pipelineBindPoint":0,
+            "colorAttachmentCount":1,
+            "pColorAttachments":[{
+                "attachment":0,
+                "layout":2
+            }]
+        }],
+        "dependencyCount":0
+    }
+
+}

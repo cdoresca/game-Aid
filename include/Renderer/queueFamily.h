@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vulkan/vulkan.h>
+#include "vkContext.h"
 #include <optional>
 #include <vector>
 
@@ -8,13 +8,19 @@
  * @brief 
  * Le struct QueueFamiliesIndices garde les indices des queues
  */
-struct QueueFamiliesIndices {
-	std::optional<uint32_t> graphicFamily;
-	std::optional<uint32_t> presentFamily;
-	std::optional<uint32_t> computeFamily;
-	std::optional<uint32_t> transfertFamily;
+namespace renderer{
 
-	bool isComplete();
-};
+	struct QueueFamiliesIndices {
+		std::optional<uint32_t> graphicFamily;
+		std::optional<uint32_t> presentFamily;
+		std::optional<uint32_t> computeFamily;
+		std::optional<uint32_t> transfertFamily;
+		uint32_t count;
+		
+		bool isComplete();
+	};
 
-QueueFamiliesIndices findQueueFamilies(VkPhysicalDevice, VkSurfaceKHR);
+
+
+	std::vector<QueueFamiliesIndices> findQueueFamilies(VkContext ctx);
+}

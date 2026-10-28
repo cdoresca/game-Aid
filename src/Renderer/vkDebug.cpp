@@ -1,35 +1,4 @@
-#include "vkUtils.h"
-
-#include <GLFW/glfw3.h>
-
-std::vector<const char*> getRequiredExtensions()
-{
-    uint32_t glfwExtensionCount = 0;
-	const char** glfwExtension;
-	glfwExtension = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-	std::vector<const char*> extensions(glfwExtension, glfwExtensionCount + glfwExtension);
-
-	if (enableValidationLayers) {
-		extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-		extensions.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
-	}
-
-	return extensions;
-}
-
-uint32_t findMemoryType(const renderer::VkContext& context,uint32_t typeFilter, VkMemoryPropertyFlags properties){
-	VkPhysicalDeviceMemoryProperties memProperties;
-	vkGetPhysicalDeviceMemoryProperties(context.physicalDevice, &memProperties);
-
-	for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
-		if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
-			return i;
-		}
-	}
-
-	throw std::runtime_error("failed to find suitable memory type!");
-}
+#include "vkDebug.h"
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
 	const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,

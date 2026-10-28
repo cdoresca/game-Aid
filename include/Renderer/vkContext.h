@@ -10,11 +10,7 @@ struct VkContext
     VkSurfaceKHR surface;
     VkPhysicalDevice physicalDevice;
     VkDevice device;
-
-    VkQueue graphicsQueue;
-    VkQueue presentQueue;
-    VkQueue computeQueue;
-
+    VkQueue queue;
     VkDebugUtilsMessengerEXT debugMessenger;
 };
 

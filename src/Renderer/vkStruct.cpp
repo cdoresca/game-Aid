@@ -1,9 +1,8 @@
-#include "vkFunction.h"
-#include "vkUtils.h"
+#include "vkStruct.h"
 
 namespace renderer{
 
-namespace vkFct{
+namespace vkStruct{
 
 VkApplicationInfo getVkApplicationInfo(const char* applicationName, uint32_t applicationVersion, const char* pEngineName, uint32_t engineVersion,uint32_t apiVersion, const void* pNext){
     VkApplicationInfo appInfo{};
@@ -352,29 +351,6 @@ VkComputePipelineCreateInfo getVkComputePipelineCreateInfo(VkPipelineLayout layo
 }
 
 
-std::vector<VkExtensionProperties> getVkEnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName){
-    uint32_t count;
-    VK_CHECK(vkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, &count, nullptr));
-    std::vector<VkExtensionProperties> extensions(count);
-    VK_CHECK(vkEnumerateDeviceExtensionProperties(physicalDevice,pLayerName, &count, extensions.data()));
-    return extensions;
-}
-
-std::vector<VkPhysicalDevice> getVkEnumeratePhysicalDevices(VkInstance instance){
-    uint32_t count;
-    VK_CHECK(vkEnumeratePhysicalDevices(instance, &count, nullptr));
-    std::vector<VkPhysicalDevice> gpu(count);
-    VK_CHECK(vkEnumeratePhysicalDevices(instance,&count,gpu.data()));
-    return gpu;
-}
-
-std::vector<VkImage> getVkGetSwapchainImagesKHR(VkDevice device, VkSwapchainKHR swapChain){
-    uint32_t count;
-    VK_CHECK(vkGetSwapchainImagesKHR(device, swapChain, &count, nullptr));
-    std::vector<VkImage> swapChainImages(count);
-    VK_CHECK(vkGetSwapchainImagesKHR(device, swapChain, &count, swapChainImages.data()));
-    return swapChainImages;
-}
 
 
 }
