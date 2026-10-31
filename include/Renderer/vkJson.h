@@ -9,3 +9,6 @@ void from_json(const core::json& j, VkDeviceCreateInfo& info);
 void from_json(const core::json& j, VkValidationFeaturesEXT& info);
 void from_json(const core::json& j, VkDebugUtilsMessengerCreateInfoEXT& info);
 void from_json(const core::json& j, VkSwapchainCreateInfoKHR& info);
+void from_json(const core::json& j, VkComponentMapping& info);
+void from_json(const core::json& j, VkImageSubresourceRange& info);
+void from_json(const core::json& j, VkImageViewCreateInfo& info);

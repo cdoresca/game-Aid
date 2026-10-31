@@ -98,5 +98,21 @@ namespace renderer{
             return family;
         }
 
+        std::vector<const char *> queryRequieredExtensionInstance()
+        {
+            uint32_t glfwExtensionCount = 0;
+            const char** glfwExtension;
+            glfwExtension = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+            std::vector<const char*> extensions(glfwExtension, glfwExtensionCount + glfwExtension);
+
+            if (enableValidationLayers) {
+                extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+                extensions.push_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
+            }
+
+            return extensions;
+        }
+
     }
 }

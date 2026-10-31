@@ -9,8 +9,7 @@ file(GLOB_RECURSE FILES CONFIGURE_DEPENDS *.cpp)
 
 add_executable(Test ${FILES})
 
-target_include_directories(Test PRIVATE ${INCLUDE_DIR})
-target_link_libraries(Test PRIVATE Core GTest::gtest_main)
+target_link_libraries(Test PRIVATE Core Renderer GTest::gtest_main)
 target_compile_features(Test PRIVATE cxx_std_20)
 
 include(GoogleTest)

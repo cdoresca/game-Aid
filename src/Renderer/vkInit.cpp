@@ -103,6 +103,13 @@ namespace renderer{
 
         VK_CHECK(vkCreateSwapchainKHR(ctx.device, &infoSwapChain, nullptr, &dpy.swapChain));
 
+        dpy.image = vkQuery::queryVkGetSwapchainImagesKHR(ctx.device,dpy.swapChain);
+        dpy.view.resize(dpy.image.size());
+        VkImageViewCreateInfo infoView = j.get<VkImageViewCreateInfo>();
+        for(size_t i = 0; i < dpy.view.size(); i++){
+            infoView.image = dpy.image[i];
+            VK_CHECK(vkCreateImageView(ctx.device, &infoView, nullptr, &dpy.view[i]));
+        }
     }
 
 }

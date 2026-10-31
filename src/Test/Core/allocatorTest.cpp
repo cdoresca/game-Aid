@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Core/allocator.h"
+#include "allocator.h"
 
 namespace Test {
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Core/generatorRandom.h"
+#include "generatorRandom.h"
 
 namespace Test{
 

@@ -35,7 +35,7 @@ target_include_directories(Renderer
     PRIVATE ${INCLUDE_DIR}/Core
 )
 
-target_link_libraries(Renderer PRIVATE glfw Vulkan::Vulkan Core)
+target_link_libraries(Renderer PUBLIC glfw Vulkan::Vulkan Core)
 
 target_compile_definitions(Renderer PUBLIC GLFW_INCLUDE_NONE)
 

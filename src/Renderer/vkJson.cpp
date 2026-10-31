@@ -1,5 +1,7 @@
 #include "vkJson.h"
 #include "vkDebug.h"
+#include <vector>
+#include "vkQuery.h"
 
 
 void from_json(const core::json& j, VkApplicationInfo& info){
@@ -15,10 +17,12 @@ void from_json(const core::json& j, VkApplicationInfo& info){
 }
 
 void from_json(const core::json& j, VkInstanceCreateInfo& info){
+    std::vector<const char*> extension = renderer::vkQuery::queryRequieredExtensionInstance();
     info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    j.at("enabledExtensionCount").get_to(info.enabledExtensionCount);
+    info.enabledExtensionCount = extension.size();
     j.at("enabledLayerCount").get_to(info.enabledLayerCount);
-    info.ppEnabledExtensionNames = j.value("ppEnabledExtensionNames", nullptr);
+    //j.at("pApplicationInfo").get(info.pApplicationInfo);
+    info.ppEnabledExtensionNames = extension.data();
     info.ppEnabledLayerNames = j.value("ppEnabledLayerNames", nullptr);
 }
 
@@ -75,4 +79,27 @@ void from_json(const core::json& j, VkSwapchainCreateInfoKHR& info){
     info.clipped = j.value("clipped", true);
     info.imageSharingMode = j.value("imageSharingMode", VK_SHARING_MODE_EXCLUSIVE);
 
+}
+
+void from_json(const core::json& j, VkComponentMapping& info){
+    info.r = static_cast<VkComponentSwizzle>(j.value("r", 0));
+    info.g = static_cast<VkComponentSwizzle>(j.value("g", 0));
+    info.b = static_cast<VkComponentSwizzle>(j.value("b", 0));
+    info.a = static_cast<VkComponentSwizzle>(j.value("a", 0));
+}
+
+void from_json(const core::json& j, VkImageSubresourceRange& info){
+    info.aspectMask = static_cast<VkImageAspectFlags>(j.value("aspectMask", 1));
+    info.baseMipLevel = j.value("baseMipLevel", 0);
+    info.baseArrayLayer = j.value("baseArrayLayer", 0);
+    info.levelCount = j.value("levelCount", 1);
+    info.layerCount = j.value("layerCount", 1);
+}
+
+void from_json(const core::json& j, VkImageViewCreateInfo& info){
+    info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+    info.viewType = static_cast<VkImageViewType>(j.value("viewType", 1));
+    info.format = static_cast<VkFormat>(j.value("format", 43));
+    
+    
 }

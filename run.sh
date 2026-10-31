@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cmake --build build
+cmake --build build --config Debug
 
 ./build/bin/GameAid

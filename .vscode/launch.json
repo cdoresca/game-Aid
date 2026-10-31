@@ -8,7 +8,7 @@
             "name": "Run  (CMake)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/bin/Game-Aid",
+            "program": "${workspaceFolder}/build/bin/GameAid",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

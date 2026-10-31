@@ -27,7 +27,7 @@ namespace core{
 
     const json& getJson(const char* path){
         file f(path);
-        if (!f.isOpen()) return false;
+        if (!f.isOpen()) return nullptr;
         std::vector<char> bytes = f.readAll();
         return json::parse(bytes.begin(),bytes.end());
     }
